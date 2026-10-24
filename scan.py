@@ -1,8 +1,7 @@
 import socket
 
-ip_address = str(input("Input IP address: "))
-
 try:
+    ip_address = str(input("Input IP address: "))
     for port_number in range(1, 100):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(0.5)
@@ -15,3 +14,4 @@ except socket.gaierror:
 except KeyboardInterrupt:
     print("\n[*] Scanning interrupted by user.")
 print("Scanning finished.")
+
