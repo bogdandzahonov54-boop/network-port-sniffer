@@ -1,14 +1,14 @@
-# network-port-sniffer
+Version 2.0: Crash-Resilient Network Auditor
 
-Wassup! This is my second tool for my cybersecurity portfolio. It is a simple, lightweight network port scanner written in Python.
+This version introduces robust error tracking and structured execution logging, transforming the script into a reliable security tool that gracefully handles network exceptions and manual interrupts.
 
-I wrote this script to scan a remote target and find open TCP ports. I successfully tested it locally in my Ubuntu VM on a real server (`scanme.nmap.org`).
+What I learned here:
 
-## What I learned here:
-* **The `socket` library:** I learned how to use low-level network connections in Python to talk to remote IP addresses.
-* **The `.connect_ex()` method:** I used this method to scan ports. It returns `0` if the port is open, which is very useful for `if/else` logic.
-* **Network timeouts:** At first, my script was too slow. I discovered the `s.settimeout(0.3)` method. It stops the loop from freezing on closed ports and makes the scan super fast.
-* **Ethics and law:** I learned that you must only scan targets that you own or have official permission to test.
+* **Low-Level Socket Auditing:** I mastered the `socket.connect_ex()` method, which safe-guards the loop by returning standard system error codes instead of crashing on closed ports.
+* **Network Exception Mapping:** Wrapped the scanning engine in a `try-except` block to capture `socket.gaierror`. If the user inputs a broken hostname or an unresolvable IP address, the script catches it and reports clean diagnostics.
+* **Signal Interrupt Capture:** Implemented graceful termination by intercepting `KeyboardInterrupt` (Ctrl+C). The script now exits cleanly upon manual intervention, utilizing the `\n` newline buffer to preserve console layout stability.
+* **Standardized InfoSec Log Markers:** Adopted international logging conventions (`[+]` for open assets, `[!]` for errors, `[*]` for system status info) to align the command-line interface with professional penetration testing frameworks.
+
 
 ## How to run it:
 1. Open your terminal in Linux or Windows.
