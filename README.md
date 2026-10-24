@@ -1,13 +1,11 @@
-Version 2.0: Crash-Resilient Network Auditor
+Version 2.2: Global Scope Exception Handling
 
-This version introduces robust error tracking and structured execution logging, transforming the script into a reliable security tool that gracefully handles network exceptions and manual interrupts.
-
+This release fixes a minor structural vulnerability by moving the core try block to the absolute top of the application. The scripting lifecycle is now fully encapsulated and protected from raw tracebacks under any runtime circumstances.
 What I learned here:
-
-* **Low-Level Socket Auditing:** I mastered the `socket.connect_ex()` method, which safe-guards the loop by returning standard system error codes instead of crashing on closed ports.
-* **Network Exception Mapping:** Wrapped the scanning engine in a `try-except` block to capture `socket.gaierror`. If the user inputs a broken hostname or an unresolvable IP address, the script catches it and reports clean diagnostics.
-* **Signal Interrupt Capture:** Implemented graceful termination by intercepting `KeyboardInterrupt` (Ctrl+C). The script now exits cleanly upon manual intervention, utilizing the `\n` newline buffer to preserve console layout stability.
-* **Standardized InfoSec Log Markers:** Adopted international logging conventions (`[+]` for open assets, `[!]` for errors, `[*]` for system status info) to align the command-line interface with professional penetration testing frameworks.
+• Global Exception Architecture: By moving the try: block immediately below the imports, I expanded the protective scope to encapsulate the user input routine itself. The application is now fully bulletproofed against unexpected terminations at any stage.
+• Input Stage Protection: I discovered that throwing a manual interrupt (Ctrl+C) during the input() phase bypasses regular internal loop handlers. Implementing global scope monitoring ensures KeyboardInterrupt is trapped even before the first variable is defined.
+• Strict Output Layout Formatting: Replaced standard text buffers with the explicit escaped newline character \n. This ensures that if an operator manually terminates the scan at the prompt interface, the terminal output preserves structural integrity and drops onto a fresh, readable line.
+• Production-Ready Shell Design: Refined the overall syntax alignment to eliminate uncaught raw Python traceback screens, providing a clean, industry-standard console user experience (UX) suitable for professional tools.
 
 
 ## How to run it:
